@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html class="light" lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Codex 技能工作台</title>
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Manrope:wght@500;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              background: "#f7f9fb",
+              surface: "#ffffff",
+              surfaceSoft: "#f0f4f7",
+              surfaceStrong: "#e1e9ee",
+              textMain: "#1f2937",
+              textSoft: "#5b6670",
+              primary: "#5a6278",
+              primarySoft: "#dae2fd",
+              line: "#d9e4ea",
+              accent: "#324053"
+            },
+            fontFamily: {
+              headline: ["Manrope", "sans-serif"],
+              body: ["Inter", "sans-serif"]
+            },
+            boxShadow: {
+              card: "0 18px 40px rgba(31, 41, 55, 0.06)"
+            }
+          }
+        }
+      };
+    </script>
+    <style>
+      .material-symbols-outlined {
+        font-variation-settings: "FILL" 0, "wght" 500, "GRAD" 0, "opsz" 24;
+      }
+      body {
+        font-family: "Inter", sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+    </style>
+  </head>
+  <body class="bg-background text-textMain">
+    <aside class="fixed left-0 top-0 hidden h-screen w-64 flex-col gap-3 border-r border-line bg-surfaceSoft px-4 py-5 md:flex">
+      <div class="px-4 py-6">
+        <p class="font-headline text-2xl font-extrabold tracking-tight text-slate-900">Codex</p>
+        <p class="mt-2 text-sm text-textSoft">把一次完整对话沉淀成可复用技能。</p>
+      </div>
+
+      <nav class="flex flex-col gap-2">
+        <a class="flex items-center gap-3 rounded-xl bg-white px-4 py-3 text-sm font-semibold text-slate-900 shadow-sm" href="#all-skills">
+          <span class="material-symbols-outlined">dashboard</span>
+          <span>全部技能</span>
+        </a>
+        <a class="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-textSoft transition hover:bg-white" href="#task-skills">
+          <span class="material-symbols-outlined">task_alt</span>
+          <span>任务技能</span>
+        </a>
+        <a class="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-textSoft transition hover:bg-white" href="#project-skills">
+          <span class="material-symbols-outlined">deployed_code</span>
+          <span>项目技能</span>
+        </a>
+        <a class="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-textSoft transition hover:bg-white" href="#recent-threads">
+          <span class="material-symbols-outlined">history</span>
+          <span>最近线程</span>
+        </a>
+      </nav>
+
+      <div class="mt-auto rounded-2xl bg-white p-4 shadow-sm">
+        <p class="text-xs font-semibold uppercase tracking-[0.2em] text-textSoft">默认模板</p>
+        <p class="mt-2 text-sm font-semibold text-slate-900">线程技能工作台</p>
+        <p class="mt-2 text-sm leading-6 text-textSoft">
+          后续同类“对话总结为技能”页面默认沿用这套布局，除非你明确要求更改。
+        </p>
+      </div>
+    </aside>
+
+    <header class="sticky top-0 z-30 border-b border-line bg-background/95 backdrop-blur">
+      <div class="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 md:pl-72">
+        <div class="flex items-center gap-3">
+          <div class="flex h-10 w-10 items-center justify-center rounded-2xl bg-primarySoft text-primary">
+            <span class="material-symbols-outlined">auto_awesome</span>
+          </div>
+          <div>
+            <p class="text-xs font-semibold uppercase tracking-[0.24em] text-textSoft">对话技能工作区</p>
+            <h1 class="font-headline text-lg font-extrabold text-slate-900">Codex 技能工作台</h1>
+          </div>
+        </div>
+
+        <nav class="hidden items-center gap-2 rounded-full bg-surfaceSoft p-1 md:flex">
+          <a class="rounded-full px-4 py-2 text-sm font-medium text-textSoft" href="#overview">总览</a>
+          <a class="rounded-full bg-white px-4 py-2 text-sm font-semibold text-slate-900 shadow-sm" href="#all-skills">技能</a>
+          <a class="rounded-full px-4 py-2 text-sm font-medium text-textSoft" href="#recent-threads">线程</a>
+          <a class="rounded-full px-4 py-2 text-sm font-medium text-textSoft" href="#settings">设置</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="md:ml-64">
+      <div class="mx-auto max-w-7xl px-6 py-10 md:py-16">
+        <section class="grid gap-8 lg:grid-cols-[1.6fr_0.9fr]" id="overview">
+          <div class="rounded-[2rem] bg-surface p-8 shadow-card">
+            <span class="inline-flex rounded-full bg-primarySoft px-3 py-1 text-xs font-bold uppercase tracking-[0.24em] text-primary">
+              对话沉淀
+            </span>
+            <h2 class="mt-6 font-headline text-4xl font-extrabold tracking-tight text-slate-900 md:text-5xl">
+              这一线程已沉淀为可复用技能。
+            </h2>
+            <p class="mt-5 max-w-3xl text-lg leading-8 text-textSoft">
+              这是一个把完整对话转化为任务技能与项目技能的结构化工作台，方便你直接查看、复用，并在后续继续推进，而不必重新整理上下文。
+            </p>
+
+            <div class="mt-8 flex flex-wrap gap-3">
+              <button class="rounded-full bg-slate-900 px-5 py-3 text-sm font-semibold text-white">查看总结</button>
+              <button class="rounded-full border border-line bg-white px-5 py-3 text-sm font-semibold text-slate-900">生成 Prompt 包</button>
+            </div>
+          </div>
+
+          <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-1">
+            <div class="rounded-[1.5rem] bg-surface p-6 shadow-card">
+              <p class="text-xs font-semibold uppercase tracking-[0.24em] text-textSoft">总技能数</p>
+              <p class="mt-4 font-headline text-4xl font-extrabold text-slate-900">06</p>
+              <p class="mt-2 text-sm text-textSoft">来自一次已完成的产品设计对话整理结果。</p>
+            </div>
+            <div class="rounded-[1.5rem] bg-surface p-6 shadow-card">
+              <p class="text-xs font-semibold uppercase tracking-[0.24em] text-textSoft">任务技能</p>
+              <p class="mt-4 font-headline text-4xl font-extrabold text-slate-900">04</p>
+              <p class="mt-2 text-sm text-textSoft">适合在后续线程和相近项目中反复复用。</p>
+            </div>
+            <div class="rounded-[1.5rem] bg-surface p-6 shadow-card">
+              <p class="text-xs font-semibold uppercase tracking-[0.24em] text-textSoft">项目技能</p>
+              <p class="mt-4 font-headline text-4xl font-extrabold text-slate-900">02</p>
+              <p class="mt-2 text-sm text-textSoft">绑定当前 CCF 赛道三项目的上下文与决策。</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="mt-10 rounded-[1.5rem] bg-surface p-5 shadow-card" id="all-skills">
+          <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+            <div>
+              <p class="text-xs font-semibold uppercase tracking-[0.24em] text-textSoft">技能工作台</p>
+              <h3 class="mt-2 font-headline text-2xl font-extrabold text-slate-900">查找、查看并继续使用任何已沉淀的技能</h3>
+            </div>
+            <div class="flex flex-wrap gap-3">
+              <button class="rounded-full bg-slate-900 px-4 py-2 text-sm font-semibold text-white">全部</button>
+              <button class="rounded-full border border-line px-4 py-2 text-sm font-semibold text-textSoft">任务技能</button>
+              <button class="rounded-full border border-line px-4 py-2 text-sm font-semibold text-textSoft">项目技能</button>
+              <button class="rounded-full border border-line px-4 py-2 text-sm font-semibold text-textSoft">高完成度</button>
+              <button class="rounded-full border border-line px-4 py-2 text-sm font-semibold text-textSoft">最近生成</button>
+              <div class="min-w-[220px] rounded-full border border-line bg-surfaceSoft px-4 py-2 text-sm text-textSoft">搜索技能</div>
+            </div>
+          </div>
+        </section>
+
+        <section class="mt-10" id="task-skills">
+          <div class="flex items-end justify-between gap-4">
+            <div>
+              <p class="text-xs font-semibold uppercase tracking-[0.24em] text-textSoft">任务技能</p>
+              <h3 class="mt-2 font-headline text-3xl font-extrabold text-slate-900">可在后续线程继续复用的工作流</h3>
+              <p class="mt-3 max-w-3xl text-base leading-7 text-textSoft">
+                这些技能来自对话中的重复动作与稳定方法，重点是跨线程、跨相近项目继续复用。
+              </p>
+            </div>
+          </div>
+
+          <div class="mt-8 grid gap-6 lg:grid-cols-2">
+            <article class="rounded-[1.75rem] bg-surface p-7 shadow-card">
+              <div class="flex items-start justify-between">
+                <div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-primarySoft text-primary">
+                  <span class="material-symbols-outlined text-[30px]">article</span>
+                </div>
+                <span class="text-xs font-semibold uppercase tracking-[0.22em] text-textSoft">01 / 06</span>
+              </div>
+              <div class="mt-6 flex items-center gap-3">
+                <span class="rounded-full bg-surfaceSoft px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-textSoft">任务技能</span>
+                <span class="rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-emerald-700">高完成度</span>
+              </div>
+              <h4 class="mt-5 font-headline text-2xl font-bold text-slate-900">对话总结器</h4>
+              <p class="mt-3 text-sm leading-7 text-textSoft">把一段较长对话压缩成带有决策、约束和下一步动作的结构化总结。</p>
+              <p class="mt-4 text-sm font-medium text-slate-900">适用场景</p>
+              <p class="mt-2 text-sm leading-7 text-textSoft">适合在长协作线程结束时进行交接、归档，或切换到新的执行阶段前使用。</p>
+              <div class="mt-5 rounded-2xl bg-surfaceSoft p-4">
+                <p class="text-xs font-semibold uppercase tracking-[0.18em] text-textSoft">来源摘要</p>
+                <p class="mt-2 text-sm leading-7 text-textSoft">来自一段从问题界定逐步推进到 UI 结构和工作流规则的设计对话。</p>
+              </div>
+              <div class="mt-5 flex items-center justify-between text-xs font-semibold uppercase tracking-[0.18em] text-textSoft">
+                <span>完成度</span>
+                <span>94%</span>
+              </div>
+              <div class="mt-2 h-2 overflow-hidden rounded-full bg-surfaceStrong">
+                <div class="h-full w-[94%] rounded-full bg-primary"></div>
+              </div>
+              <div class="mt-6 flex flex-wrap gap-3">
+                <button class="rounded-full bg-slate-900 px-4 py-2 text-sm font-semibold text-white">查看 Skill</button>
+                <button class="rounded-full border border-line px-4 py-2 text-sm font-semibold text-slate-900">复制 Prompt</button>
+                <button class="rounded-full border border-line px-4 py-2 text-sm font-semibold text-slate-900">继续使用</button>
+              </div>
+            </article>
+
+            <article class="rounded-[1.75rem] bg-surface p-7 shadow-card">
+              <div class="flex items-start justify-between">
+                <div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-primarySoft text-primary">
+                  <span class="material-symbols-outlined text-[30px]">layers</span>
+                </div>
+                <span class="text-xs font-semibold uppercase tracking-[0.22em] text-textSoft">02 / 06</span>
+              </div>
+              <div class="mt-6 flex items-center gap-3">
+                <span class="rounded-full bg-surfaceSoft px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-textSoft">任务技能</span>
+                <span class="rounded-full bg-amber-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-amber-700">持续完善</span>
+              </div>
+              <h4 class="mt-5 font-headline text-2xl font-bold text-slate-900">技能提炼工作流</h4>
+              <p class="mt-3 text-sm leading-7 text-textSoft">从目标、重复动作、已确认结构和稳定偏好中识别可以复用的能力模块。</p>
+              <p class="mt-4 text-sm font-medium text-slate-900">适用场景</p>
+              <p class="mt-2 text-sm leading-7 text-textSoft">当一段对话已经积累出稳定模式，不再只是临时笔记，而应该沉淀成长期可用技能时使用。</p>
+              <div class="mt-5 rounded-2xl bg-surfaceSoft p-4">
+                <p class="text-xs font-semibold uppercase tracking-[0.18em] text-textSoft">触发词</p>
+                <p class="mt-2 text-sm leading-7 text-textSoft">总结成技能、提炼工作流、线程复用、把对话转成可复用模块</p>
+              </div>
+              <div class="mt-5 flex items-center justify-between text-xs font-semibold uppercase tracking-[0.18em] text-textSoft">
+                <span>完成度</span>
+                <span>86%</span>
+              </div>
+              <div class="mt-2 h-2 overflow-hidden rounded-full bg-surfaceStrong">
+                <div class="h-full w-[86%] rounded-full bg-primary"></div>
+              </div>
+              <div class="mt-6 flex flex-wrap gap-3">
+                <button class="rounded-full bg-slate-900 px-4 py-2 text-sm font-semibold text-white">查看 Skill</button>
+                <button class="rounded-full border border-line px-4 py-2 text-sm font-semibold text-slate-900">复制 Prompt</button>
+                <button class="rounded-full border border-line px-4 py-2 text-sm font-semibold text-slate-900">继续使用</button>
+              </div>
+            </article>
+
+            <article class="rounded-[1.75rem] bg-surface p-7 shadow-card">
+              <div class="flex items-start justify-between">
+                <div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-primarySoft text-primary">
+                  <span class="material-symbols-outlined text-[30px]">notes</span>
+                </div>
+                <span class="text-xs font-semibold uppercase tracking-[0.22em] text-textSoft">03 / 06</span>
+              </div>
+              <div class="mt-6 flex items-center gap-3">
+                <span class="rounded-full bg-surfaceSoft px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-textSoft">任务技能</span>
+                <span class="rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-emerald-700">可直接使用</span>
+              </div>
+              <h4 class="mt-5 font-headline text-2xl font-bold text-slate-900">续写 Prompt 助手</h4>
+              <p class="mt-3 text-sm leading-7 text-textSoft">在不丢失当前线程既定结构的前提下，生成继续推进工作的下一句 Prompt。</p>
+              <p class="mt-4 text-sm font-medium text-slate-900">适用场景</p>
+              <p class="mt-2 text-sm leading-7 text-textSoft">适合在头脑风暴或总结结束后，直接切入下一步执行时使用。</p>
+              <div class="mt-5 rounded-2xl bg-surfaceSoft p-4">
+                <p class="text-xs font-semibold uppercase tracking-[0.18em] text-textSoft">生成时间</p>
+                <p class="mt-2 text-sm leading-7 text-textSoft">2026 年 3 月 28 日 20:13</p>
+              </div>
+              <div class="mt-5 flex items-center justify-between text-xs font-semibold uppercase tracking-[0.18em] text-textSoft">
+                <span>完成度</span>
+                <span>90%</span>
+              </div>
+              <div class="mt-2 h-2 overflow-hidden rounded-full bg-surfaceStrong">
+                <div class="h-full w-[90%] rounded-full bg-primary"></div>
+              </div>
+              <div class="mt-6 flex flex-wrap gap-3">
+                <button class="rounded-full bg-slate-900 px-4 py-2 text-sm font-semibold text-white">查看 Skill</button>
+                <button class="rounded-full border border-line px-4 py-2 text-sm font-semibold text-slate-900">复制 Prompt</button>
+                <button class="rounded-full border border-line px-4 py-2 text-sm font-semibold text-slate-900">继续使用</button>
+              </div>
+            </article>
+
+            <article class="rounded-[1.75rem] bg-surface p-7 shadow-card">
+              <div class="flex items-start justify-between">
+                <div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-primarySoft text-primary">
+                  <span class="material-symbols-outlined text-[30px]">space_dashboard</span>
+                </div>
+                <span class="text-xs font-semibold uppercase tracking-[0.22em] text-textSoft">04 / 06</span>
+              </div>
+              <div class="mt-6 flex items-center gap-3">
+                <span class="rounded-full bg-surfaceSoft px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-textSoft">任务技能</span>
+                <span class="rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-emerald-700">可直接使用</span>
+              </div>
+              <h4 class="mt-5 font-headline text-2xl font-bold text-slate-900">线程转技能模板</h4>
+              <p class="mt-3 text-sm leading-7 text-textSoft">应用已经确认的总结模板，让页面更像技能工作台，而不是单纯的展示页。</p>
+              <p class="mt-4 text-sm font-medium text-slate-900">适用场景</p>
+              <p class="mt-2 text-sm leading-7 text-textSoft">后续线程需要复用同一套总结格式、卡片分组和动作优先布局时使用。</p>
+              <div class="mt-5 rounded-2xl bg-surfaceSoft p-4">
+                <p class="text-xs font-semibold uppercase tracking-[0.18em] text-textSoft">触发词</p>
+                <p class="mt-2 text-sm leading-7 text-textSoft">线程总结页、技能工作台、使用默认模板、把这段对话总结成技能</p>
+              </div>
+              <div class="mt-5 flex items-center justify-between text-xs font-semibold uppercase tracking-[0.18em] text-textSoft">
+                <span>完成度</span>
+                <span>92%</span>
+              </div>
+              <div class="mt-2 h-2 overflow-hidden rounded-full bg-surfaceStrong">
+                <div class="h-full w-[92%] rounded-full bg-primary"></div>
+              </div>
+              <div class="mt-6 flex flex-wrap gap-3">
+                <button class="rounded-full bg-slate-900 px-4 py-2 text-sm font-semibold text-white">查看 Skill</button>
+                <button class="rounded-full border border-line px-4 py-2 text-sm font-semibold text-slate-900">复制 Prompt</button>
+                <button class="rounded-full border border-line px-4 py-2 text-sm font-semibold text-slate-900">继续使用</button>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section class="mt-14" id="project-skills">
+          <p class="text-xs font-semibold uppercase tracking-[0.24em] text-textSoft">项目技能</p>
+          <h3 class="mt-2 font-headline text-3xl font-extrabold text-slate-900">为当前项目保留连续性的上下文技能</h3>
+          <p class="mt-3 max-w-3xl text-base leading-7 text-textSoft">
+            这些技能专门保留当前项目的重要决策、仓库方向和已经确认的产品路径。
+          </p>
+
+          <div class="mt-8 grid gap-6 lg:grid-cols-2">
+            <article class="rounded-[1.75rem] bg-surface p-7 shadow-card">
+              <div class="flex items-start justify-between">
+                <div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-primarySoft text-primary">
+                  <span class="material-symbols-outlined text-[30px]">volunteer_activism</span>
+                </div>
+                <span class="text-xs font-semibold uppercase tracking-[0.22em] text-textSoft">05 / 06</span>
+              </div>
+              <div class="mt-6 flex items-center gap-3">
+                <span class="rounded-full bg-surfaceSoft px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-textSoft">项目技能</span>
+                <span class="rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-emerald-700">可直接使用</span>
+              </div>
+              <h4 class="mt-5 font-headline text-2xl font-bold text-slate-900">CCF 赛道三产品设计</h4>
+              <p class="mt-3 text-sm leading-7 text-textSoft">在保留“优先服务捐赠者和购买者”这一核心前提下，继续推进赛道三公益电商产品设计。</p>
+              <p class="mt-4 text-sm font-medium text-slate-900">关联项目</p>
+              <p class="mt-2 text-sm leading-7 text-textSoft">仓库：26CCFtec_marathon</p>
+              <div class="mt-5 rounded-2xl bg-surfaceSoft p-4">
+                <p class="text-xs font-semibold uppercase tracking-[0.18em] text-textSoft">来源摘要</p>
+                <p class="mt-2 text-sm leading-7 text-textSoft">来源于已经确认的比赛赛道、目标用户优先级和产品设计推进顺序。</p>
+              </div>
+              <div class="mt-5 flex items-center justify-between text-xs font-semibold uppercase tracking-[0.18em] text-textSoft">
+                <span>完成度</span>
+                <span>93%</span>
+              </div>
+              <div class="mt-2 h-2 overflow-hidden rounded-full bg-surfaceStrong">
+                <div class="h-full w-[93%] rounded-full bg-primary"></div>
+              </div>
+              <div class="mt-6 flex flex-wrap gap-3">
+                <button class="rounded-full bg-slate-900 px-4 py-2 text-sm font-semibold text-white">查看 Skill</button>
+                <button class="rounded-full border border-line px-4 py-2 text-sm font-semibold text-slate-900">复制 Prompt</button>
+                <button class="rounded-full border border-line px-4 py-2 text-sm font-semibold text-slate-900">继续使用</button>
+              </div>
+            </article>
+
+            <article class="rounded-[1.75rem] bg-surface p-7 shadow-card">
+              <div class="flex items-start justify-between">
+                <div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-primarySoft text-primary">
+                  <span class="material-symbols-outlined text-[30px]">rocket_launch</span>
+                </div>
+                <span class="text-xs font-semibold uppercase tracking-[0.22em] text-textSoft">06 / 06</span>
+              </div>
+              <div class="mt-6 flex items-center gap-3">
+                <span class="rounded-full bg-surfaceSoft px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-textSoft">项目技能</span>
+                <span class="rounded-full bg-amber-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-amber-700">待推进</span>
+              </div>
+              <h4 class="mt-5 font-headline text-2xl font-bold text-slate-900">仓库启动准备</h4>
+              <p class="mt-3 text-sm leading-7 text-textSoft">为后续真正进入 GitHub 仓库做好首版实现文件、页面结构和发布路径准备。</p>
+              <p class="mt-4 text-sm font-medium text-slate-900">适用场景</p>
+              <p class="mt-2 text-sm leading-7 text-textSoft">当已确认的界面要从总结设计阶段进入首个可交付 HTML 或前端仓库结构时使用。</p>
+              <div class="mt-5 rounded-2xl bg-surfaceSoft p-4">
+                <p class="text-xs font-semibold uppercase tracking-[0.18em] text-textSoft">生成时间</p>
+                <p class="mt-2 text-sm leading-7 text-textSoft">2026 年 3 月 28 日 20:30</p>
+              </div>
+              <div class="mt-5 flex items-center justify-between text-xs font-semibold uppercase tracking-[0.18em] text-textSoft">
+                <span>完成度</span>
+                <span>78%</span>
+              </div>
+              <div class="mt-2 h-2 overflow-hidden rounded-full bg-surfaceStrong">
+                <div class="h-full w-[78%] rounded-full bg-primary"></div>
+              </div>
+              <div class="mt-6 flex flex-wrap gap-3">
+                <button class="rounded-full bg-slate-900 px-4 py-2 text-sm font-semibold text-white">查看 Skill</button>
+                <button class="rounded-full border border-line px-4 py-2 text-sm font-semibold text-slate-900">复制 Prompt</button>
+                <button class="rounded-full border border-line px-4 py-2 text-sm font-semibold text-slate-900">继续使用</button>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section class="mt-16 grid gap-8 lg:grid-cols-[1.2fr_0.8fr]" id="recent-threads">
+          <div class="rounded-[2rem] bg-surface p-8 shadow-card">
+            <p class="text-xs font-semibold uppercase tracking-[0.24em] text-textSoft">技能提炼逻辑</p>
+            <h3 class="mt-3 font-headline text-3xl font-extrabold text-slate-900">不是松散总结，而是结构化抽取</h3>
+            <p class="mt-5 text-base leading-8 text-textSoft">
+              每个技能都来自对话中明确的目标、重复动作、已确认决策和持续生效的约束。任务技能优先服务跨线程复用，而项目技能用于保留当前项目的连续性。
+            </p>
+            <div class="mt-8 grid gap-4 sm:grid-cols-3">
+              <div class="rounded-2xl bg-surfaceSoft p-4">
+                <p class="text-xs font-semibold uppercase tracking-[0.18em] text-textSoft">步骤 1</p>
+                <p class="mt-2 text-sm font-semibold text-slate-900">识别稳定决策</p>
+              </div>
+              <div class="rounded-2xl bg-surfaceSoft p-4">
+                <p class="text-xs font-semibold uppercase tracking-[0.18em] text-textSoft">步骤 2</p>
+                <p class="mt-2 text-sm font-semibold text-slate-900">区分通用逻辑与项目逻辑</p>
+              </div>
+              <div class="rounded-2xl bg-surfaceSoft p-4">
+                <p class="text-xs font-semibold uppercase tracking-[0.18em] text-textSoft">步骤 3</p>
+                <p class="mt-2 text-sm font-semibold text-slate-900">暴露可直接复用的动作入口</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="rounded-[2rem] bg-slate-900 p-8 text-white shadow-card" id="settings">
+            <p class="text-xs font-semibold uppercase tracking-[0.24em] text-slate-400">默认行为</p>
+            <h3 class="mt-3 font-headline text-3xl font-extrabold">模板默认持续生效</h3>
+            <p class="mt-5 text-base leading-8 text-slate-300">
+              后续同类线程总结默认保持这套工作台结构：总览、筛选区、任务技能、项目技能、细节丰富的卡片，以及动作按钮。
+            </p>
+            <div class="mt-8 space-y-4">
+              <div class="rounded-2xl bg-white/10 p-4">
+                <p class="text-sm font-semibold">核心模式</p>
+                <p class="mt-2 text-sm text-slate-300">兼顾展示和工作流，但优先保证好用。</p>
+              </div>
+              <div class="rounded-2xl bg-white/10 p-4">
+                <p class="text-sm font-semibold">卡片字段模型</p>
+                <p class="mt-2 text-sm text-slate-300">名称、说明、适用场景、来源摘要、触发词、生成时间、完成度和动作入口。</p>
+              </div>
+              <div class="rounded-2xl bg-white/10 p-4">
+                <p class="text-sm font-semibold">核心动作</p>
+                <p class="mt-2 text-sm text-slate-300">查看 Skill、复制 Prompt、继续使用。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <nav class="fixed bottom-0 left-0 right-0 z-40 flex items-center justify-around border-t border-line bg-white/95 px-4 py-3 backdrop-blur md:hidden">
+        <a class="flex flex-col items-center gap-1 text-xs font-semibold text-textSoft" href="#overview">
+          <span class="material-symbols-outlined">dashboard</span>
+          <span>总览</span>
+        </a>
+        <a class="flex flex-col items-center gap-1 text-xs font-semibold text-primary" href="#all-skills">
+          <span class="material-symbols-outlined">auto_awesome_motion</span>
+          <span>技能</span>
+        </a>
+        <a class="flex flex-col items-center gap-1 text-xs font-semibold text-textSoft" href="#recent-threads">
+          <span class="material-symbols-outlined">forum</span>
+          <span>线程</span>
+        </a>
+        <a class="flex flex-col items-center gap-1 text-xs font-semibold text-textSoft" href="#settings">
+          <span class="material-symbols-outlined">play_circle</span>
+          <span>动作</span>
+        </a>
+      </nav>
+    </main>
+  </body>
+</html>
