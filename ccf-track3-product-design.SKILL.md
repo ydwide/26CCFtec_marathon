@@ -1,68 +1,316 @@
 ---
 name: ccf-track3-product-design
-description: Continue the CCF 2026 Technology for Public Good Marathon Track 3 product-design work. Use when the user mentions CCF 2026, track 3, charity shop, donation resale, public-good commerce, or the repository `26CCFtec_marathon`, and Codex needs to resume product positioning, information architecture, feature design, page planning, or implementation preparation for this project.
+description: Use when继续推进 CCF 2026 技术公益马拉松 Track 3 的公益二手流通产品设计，需要基于既有结论继续做产品定位、三端信息架构、功能模块、页面规划、UI 规范或实现准备；当用户提到公益商店、捐赠流转、二手义卖、微信小程序、App、后台管理端或仓库 `26CCFtec_marathon` 时也应使用。
 ---
 
-# CCF Track 3 Product Design
+# CCF Track 3 产品设计
 
-## Overview
+## 概述
 
-Resume the ongoing design work for the CCF 2026 Track 3 project without re-discovering the baseline each time. Treat this as a charity commerce product centered on donors and buyers, with later support for staff operations.
+这个技能用于延续 CCF 2026 技术公益马拉松 Track 3 项目的产品设计工作，避免每次都从头重新确认背景。
 
-## Current Baseline
+项目被定义为一个围绕“捐赠者、购买者、平台工作人员”展开的公益二手流通平台。产品重点不是做单一页面，而是先完成完整产品方向，再推进信息架构、页面结构、设计系统与实现准备。
 
-Assume these points are already confirmed unless the user explicitly changes them:
+从现在开始，这个技能及其后续整理内容统一使用中文。
 
-- The project is for CCF 2026 Track 3.
-- The source problem is a charity shop and donated-goods circulation scenario.
-- The product should eventually be stored in the GitHub repository `26CCFtec_marathon`.
-- The user chose to design the complete product direction first, not just a landing page or a single-end demo.
-- The first-priority audience is donors and buyers.
-- Node.js has been installed locally for future project setup and visual tooling.
+## 当前已确认基线
 
-## Product Goal
+除非用户明确修改，否则默认以下结论已经成立：
 
-Design a product that makes public-good secondhand circulation easier to trust and easier to use for external users.
+- 项目属于 CCF 2026 技术公益马拉松 Track 3。
+- 原始问题场景是公益商店、捐赠物资流转、二手义卖与公益收益转化。
+- 目标仓库名默认是 `26CCFtec_marathon`。
+- 用户选择先设计完整产品，而不是只做官网、着陆页或单个端的演示稿。
+- 产品首要服务对象是外部用户，但现在已经明确需要覆盖三端完整方案。
+- Node.js 已在本地安装，可用于后续原型、前端和可视化工作。
 
-Keep these value directions in mind while refining the concept:
+## 当前产品方向
 
-- Show what can be donated, bought, and traced.
-- Lower the friction for donation, browsing, and purchase.
-- Make the public-good impact visible and understandable.
-- Use AI only where it clearly reduces effort or improves confidence.
+### 核心定位
 
-## Working Style
+当前项目的主方向已经确认：
 
-When continuing this project:
+- 这是一个覆盖 `微信小程序端 + App 端 + 后台管理端` 的公益二手流通平台。
+- 平台目标是让闲置物品更容易进入公益循环，让用户更愿意捐、敢于买、看得见流转结果。
+- 本次比赛交付就是三端方案，不再把 App 放到后续阶段。
 
-1. Start from the confirmed baseline instead of asking the user to repeat context.
-2. Ask one high-value question at a time when the product direction is still being refined.
-3. Prioritize donor and buyer journeys before expanding staff tooling.
-4. Keep suggestions grounded in a realistic competition deliverable: product strategy, feature set, flows, IA, page structure, and implementation path.
-5. If visual comparison would help, offer a lightweight visual aid. If tooling is blocked, continue in text without stalling.
+### 核心价值主张
 
-## Recommended Design Sequence
+当前优先记忆点已经确认：
 
-Use this order unless the user explicitly requests a different path:
+- 产品首先要被记住的是“AI 提升效率”。
+- AI 的核心应用点不是购买推荐，也不是纯追踪展示，而是 `AI 辅助上架运营`。
 
-1. Clarify the main value proposition.
-2. Define the core user journeys for donors and buyers.
-3. Decide the minimum product modules.
-4. Draft the information architecture.
-5. Outline key pages or screens.
-6. Add the supporting staff and admin capabilities only after the external-user experience is clear.
-7. Convert the approved design into an implementation plan and repo structure.
+推荐表达：
 
-## Minimum Modules
+`通过 AI 辅助分类、估价、文案生成与审核整理，让闲置捐赠更轻松、公益上架更高效、流转结果更透明。`
 
-These are the default modules to consider first:
+### AI 协作模式
 
-- Donation entry: let donors understand what can be donated and how to submit items.
-- Charity marketplace: let buyers browse, filter, and purchase secondhand items with confidence.
-- Public-good transparency: show where goods come from, how they are handled, and what impact the purchase creates.
-- AI assistance: support classification, pricing suggestions, or matching only where it improves usability.
-- Order and item traceability: expose enough lifecycle data to build trust without overwhelming users.
+当前已确认采用：
 
-## Repo Note
+- `前端轻量采集 + 后台 AI 深化整理`
+- `捐赠者轻提交，工作人员借助 AI 完成标准化整理与上架`
 
-When implementation begins, use `26CCFtec_marathon` as the target GitHub repository name unless the user changes it.
+不采用完全自动上架，也不把流程全部压到线下人工。
+
+当前推荐的产品打法为：
+
+- `轻协作型`
+
+含义：
+
+- 捐赠者提交照片和基础信息。
+- 后台收到线索后，AI 生成类目、标题、描述、标签、建议价格等草稿。
+- 工作人员审核、修改、确认上架。
+
+## 三端范围定义
+
+### 微信小程序端
+
+定位：
+
+- 轻入口
+- 快速捐赠
+- 快速浏览与购买
+- 进度查询
+- 易传播、易转化
+
+### App 端
+
+定位：
+
+- 深运营
+- 长期关系沉淀
+- 消息触达
+- 公益档案
+- 成长体系与长期参与感
+
+### 后台管理端
+
+定位：
+
+- AI 效率中枢
+- 捐赠审核中枢
+- 商品上架与订单治理中枢
+- 数据看板与答辩展示中枢
+
+## 三端核心流程
+
+当前确认的主流程是：
+
+`轻提交 -> AI 整理 -> 人工审核 -> 上架流通 -> 购买完成 -> 公益去向可追踪`
+
+### 捐赠者流程
+
+- 在小程序或 App 发起捐赠
+- 上传物品照片并填写基础信息
+- 选择交付方式
+- 查看捐赠状态
+- 跟踪物品是否已整理、已上架、已售出、已完成公益流转
+
+### 购买者流程
+
+- 在小程序或 App 浏览商品
+- 查看商品图片、成色、来源、平台核验信息与公益说明
+- 完成下单购买
+- 查看订单状态与公益去向说明
+
+### 后台流程
+
+- 接收捐赠线索
+- AI 辅助生成商品草稿
+- 工作人员审核与修改
+- 确认上架
+- 跟踪订单与公益流转结果
+
+## MVP 模块
+
+当前默认的最小功能模块为：
+
+1. 捐赠提交模块
+2. AI 辅助上架模块
+3. 公益商品商城模块
+4. 流转追踪与透明展示模块
+5. 用户账户与运营管理模块
+
+如果用户没有改方向，后续功能讨论优先围绕这五个模块展开。
+
+## 三端信息架构方向
+
+### 小程序一级结构
+
+- 首页
+- 商城
+- 捐赠
+- 订单
+- 我的
+
+### App 一级结构
+
+- 首页
+- 商城
+- 捐赠
+- 消息
+- 我的
+
+### 后台一级结构
+
+- 工作台
+- 捐赠管理
+- AI整理台
+- 商品管理
+- 订单管理
+- 用户管理
+- 数据看板
+- 系统设置
+
+## 三端重点页面
+
+### 小程序重点页
+
+- 首页
+- 商品列表页
+- 商品详情页
+- 我要捐赠页
+- 捐赠成功页
+- 捐赠进度页
+- 个人中心页
+
+### App 重点页
+
+- 首页
+- 商城页
+- 商品详情页
+- 我要捐赠页
+- 消息中心页
+- 公益档案页
+- 我的捐赠页
+- 个人中心页
+
+### 后台重点页
+
+- 工作台
+- 捐赠线索列表
+- AI整理台
+- 商品管理/审核页
+- 数据看板
+
+其中最关键的比赛展示页是：
+
+- 小程序商品详情页
+- 小程序捐赠页
+- 小程序捐赠进度页
+- App 公益档案页
+- 后台 AI 整理台
+- 后台数据看板
+
+## UI 与设计系统基线
+
+当前已有一套统一视觉方向，除非用户主动修改，否则默认沿用并继续收口。
+
+### 品牌与语言
+
+- 后续整理统一使用中文。
+- 当前中文主品牌可继续使用 `有温度的物命策展人`。
+- 英文名如需保留，只能作为副标题或补充，不作为主导航核心文案。
+
+### 视觉关键词
+
+- 温暖
+- 可信
+- 公益
+- 可持续
+- 轻策展感
+- 有品质感
+
+### 色彩方向
+
+- 主色：深绿色
+- 强调色：暖橙色
+- 背景：浅米绿色 / 浅暖绿
+
+### 字体方向
+
+- 标题：`Epilogue`
+- 正文：`Manrope`
+- 标签：`Plus Jakarta Sans`
+
+### 组件方向
+
+优先复用并统一这些组件：
+
+- 按钮
+- 标签
+- 商品卡
+- 捐赠记录卡
+- 数据卡
+- AI 建议卡
+- 搜索框
+- 表单输入
+- 步骤条
+- 时间轴
+- 顶部导航
+- 底部导航
+- 后台侧边导航
+
+## 文案与命名规则
+
+后续整理时始终遵守：
+
+- 全部中文优先
+- 页面标题、导航、按钮、状态、提示语优先中文
+- 少用纯英文业务词
+- 避免把产品写成“高端买手平台”
+- 需要持续强调：
+  - 爱心捐赠
+  - 公益流转
+  - 平台审核
+  - AI 辅助整理
+  - 公益收益去向
+  - 透明可追踪
+
+### 统一状态建议
+
+- 已提交
+- 待接收
+- 待整理
+- AI整理中
+- 待审核
+- 待上架
+- 已上架
+- 流转中
+- 已售出
+- 已完成
+- 已驳回
+
+## 工作方式
+
+继续这个项目时，默认采用以下方式：
+
+1. 直接基于已确认基线推进，不要求用户重复背景。
+2. 如果方向仍需收敛，一次只问一个高价值问题。
+3. 优先把 donor / buyer / 后台主流程讲清楚，再扩展外围功能。
+4. 先完成产品结构、页面结构、设计系统，再讨论实现细节。
+5. 如果用户给出 Stitch/Figma/HTML 原型代码，优先做统一收口，而不是再次从零发散。
+6. 对后续内容统一使用中文整理，包括技能本身、总结、规范、页面清单、组件清单与文案清单。
+
+## 推荐推进顺序
+
+除非用户要求改变顺序，否则默认按这个顺序继续：
+
+1. 核心价值主张
+2. 核心流程
+3. MVP 模块
+4. 三端信息架构
+5. 页面清单
+6. UI 规范与组件清单
+7. 页面优先级与比赛展示顺序
+8. 实现计划与仓库结构
+
+## 仓库备注
+
+进入实现阶段后：
+
+- 默认目标仓库名仍为 `26CCFtec_marathon`
+- 如果用户后续要求把技能、规范、页面清单或设计系统文档落盘，统一优先使用中文文件内容

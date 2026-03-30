@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>我要捐赠 - 小程序</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-[#F8FAF5] text-slate-900">
+  <header class="sticky top-0 bg-[#F8FAF5]/90 px-4 py-4 shadow-sm backdrop-blur">
+    <div class="mx-auto flex max-w-md items-center justify-between">
+      <button class="rounded-full bg-white px-3 py-2 text-sm shadow-sm">返回</button>
+      <h1 class="text-xl font-bold text-[#1A4D2E]">提交爱心捐赠</h1>
+      <button class="text-sm font-semibold text-[#1A4D2E]">帮助</button>
+    </div>
+  </header>
+  <main class="mx-auto max-w-md space-y-6 px-4 pb-28 pt-5">
+    <section>
+      <div class="mb-2 flex justify-between text-sm">
+        <span class="font-bold text-[#1A4D2E]">1. 拍照上传</span>
+        <span class="text-slate-500">2. 完善信息</span>
+        <span class="text-slate-500">3. 选择交付</span>
+      </div>
+      <div class="h-2 rounded-full bg-[#E3E7E0]">
+        <div class="h-2 w-1/3 rounded-full bg-[#1A4D2E]"></div>
+      </div>
+    </section>
+    <section class="space-y-4 rounded-2xl border-2 border-dashed border-[#C9D0C8] bg-white p-6 text-center shadow-sm">
+      <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-green-100 text-2xl text-[#1A4D2E]">相</div>
+      <div>
+        <p class="font-bold text-[#1A4D2E]">点击上传照片</p>
+        <p class="mt-1 text-xs text-slate-500">清晰的多角度照片有助于 AI 识别与审核</p>
+      </div>
+    </section>
+    <section class="space-y-4">
+      <div class="rounded-xl bg-white p-4 shadow-sm">
+        <label class="mb-2 block text-xs font-bold uppercase tracking-wider text-slate-500">物品名称</label>
+        <input class="w-full border-none p-0 text-sm outline-none" placeholder="例如：复古羊毛大衣、手工陶瓷花瓶" />
+      </div>
+      <div class="rounded-xl bg-white p-4 shadow-sm">
+        <label class="mb-2 block text-xs font-bold uppercase tracking-wider text-slate-500">所属分类</label>
+        <div class="text-sm text-slate-500">请选择分类</div>
+      </div>
+      <div class="rounded-xl bg-white p-4 shadow-sm">
+        <label class="mb-3 block text-xs font-bold uppercase tracking-wider text-slate-500">成色描述</label>
+        <div class="flex flex-wrap gap-2">
+          <span class="rounded-full border border-[#C9D0C8] px-3 py-1 text-sm">全新</span>
+          <span class="rounded-full bg-green-100 px-3 py-1 text-sm font-bold text-[#1A4D2E]">九成新</span>
+          <span class="rounded-full border border-[#C9D0C8] px-3 py-1 text-sm">轻微使用感</span>
+        </div>
+      </div>
+      <div class="rounded-xl bg-white p-4 shadow-sm">
+        <label class="mb-2 block text-xs font-bold uppercase tracking-wider text-slate-500">交付方式</label>
+        <div class="grid grid-cols-2 gap-3">
+          <div class="rounded-xl bg-[#1A4D2E] p-4 text-center text-white">
+            <div class="text-lg font-bold">快递预约</div>
+            <div class="mt-1 text-xs text-white/70">顺丰免费上门取件</div>
+          </div>
+          <div class="rounded-xl border border-[#DDE3DA] bg-[#F8FAF5] p-4 text-center text-[#1A4D2E]">
+            <div class="text-lg font-bold">自送驿站</div>
+            <div class="mt-1 text-xs text-slate-500">查找最近绿色驿站</div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="rounded-xl bg-gradient-to-br from-[#1A4D2E] to-[#29563C] p-6 text-white shadow-lg">
+      <p class="text-xs font-bold uppercase tracking-[0.2em] text-orange-200">预计环保贡献</p>
+      <p class="mt-3 text-4xl font-extrabold">12.5kg</p>
+      <p class="mt-2 text-sm text-white/80">通过此次捐赠，预计可减少约 12.5kg 碳排放，并推动一件旧物继续流转。</p>
+    </section>
+  </main>
+  <div class="fixed bottom-0 left-0 right-0 bg-[#F8FAF5]/95 px-4 pb-6 pt-4 shadow-[0_-8px_24px_rgba(26,77,46,0.08)]">
+    <div class="mx-auto max-w-md space-y-3">
+      <label class="flex items-start gap-2 text-xs text-slate-500">
+        <input type="checkbox" checked />
+        <span>我已阅读并同意《捐赠协议》与《旧物循环标准》</span>
+      </label>
+      <button class="w-full rounded-full bg-gradient-to-r from-[#1A4D2E] to-[#29563C] py-4 text-lg font-bold text-white shadow-lg">提交捐赠</button>
+    </div>
+  </div>
+</body>
+</html>

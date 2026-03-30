@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>小程序首页 - 有温度的物命策展人</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: "#1A4D2E",
+            secondary: "#FF9F45",
+            bgsoft: "#F8FAF5",
+            card: "#FFFFFF",
+            muted: "#5E655F",
+            line: "#E3E7E0"
+          },
+          borderRadius: {
+            xl: "1rem",
+            full: "9999px"
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-bgsoft text-slate-900">
+  <header class="sticky top-0 z-10 bg-bgsoft/90 backdrop-blur px-4 py-4 shadow-sm">
+    <div class="mx-auto flex max-w-md items-center justify-between">
+      <h1 class="text-xl font-bold text-primary">有温度的物命策展人</h1>
+      <button class="rounded-full bg-white p-2 shadow-sm">搜索</button>
+    </div>
+  </header>
+  <main class="mx-auto max-w-md space-y-6 px-4 pb-28 pt-4">
+    <section class="overflow-hidden rounded-xl bg-primary text-white shadow-lg">
+      <div class="space-y-3 bg-gradient-to-r from-primary to-primary/70 px-6 py-8">
+        <p class="text-xs font-semibold uppercase tracking-[0.2em] text-orange-200">公益流转</p>
+        <h2 class="text-3xl font-extrabold leading-tight">旧物换新，爱心流转</h2>
+        <p class="text-sm text-white/80">让每一件闲置物品都重新进入有价值的公益循环。</p>
+      </div>
+    </section>
+    <section class="grid grid-cols-4 gap-3 text-center">
+      <div class="rounded-xl bg-white p-3 shadow-sm"><div class="mb-2 text-2xl">捐</div><div class="text-xs font-semibold text-primary">我要捐赠</div></div>
+      <div class="rounded-xl bg-white p-3 shadow-sm"><div class="mb-2 text-2xl">购</div><div class="text-xs font-semibold text-primary">公益商城</div></div>
+      <div class="rounded-xl bg-white p-3 shadow-sm"><div class="mb-2 text-2xl">踪</div><div class="text-xs font-semibold text-primary">捐赠进度</div></div>
+      <div class="rounded-xl bg-white p-3 shadow-sm"><div class="mb-2 text-2xl">单</div><div class="text-xs font-semibold text-primary">我的订单</div></div>
+    </section>
+    <section class="rounded-xl bg-white p-5 shadow-sm">
+      <div class="mb-4 flex items-end justify-between">
+        <h3 class="text-lg font-bold text-primary">公益流转透明化</h3>
+        <span class="text-xs text-muted">本周更新</span>
+      </div>
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <p class="text-xs uppercase tracking-wider text-muted">本周已流转</p>
+          <p class="mt-1 text-3xl font-extrabold text-secondary">1280</p>
+        </div>
+        <div>
+          <p class="text-xs uppercase tracking-wider text-muted">累计公益支持</p>
+          <p class="mt-1 text-3xl font-extrabold text-secondary">2420</p>
+        </div>
+      </div>
+      <div class="mt-4 h-2 rounded-full bg-line">
+        <div class="h-2 w-3/4 rounded-full bg-primary"></div>
+      </div>
+    </section>
+    <section class="space-y-4">
+      <div class="flex items-end justify-between">
+        <h3 class="text-xl font-extrabold text-primary">精选流转物</h3>
+        <button class="text-sm font-semibold text-secondary">查看全部</button>
+      </div>
+      <div class="grid grid-cols-2 gap-4">
+        <article class="overflow-hidden rounded-xl bg-white shadow-sm">
+          <div class="h-40 bg-[url('https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=900&q=80')] bg-cover bg-center"></div>
+          <div class="space-y-2 p-4">
+            <span class="rounded-full bg-green-100 px-2 py-1 text-[10px] font-bold text-primary">九成新</span>
+            <h4 class="font-semibold">经典格纹大衣</h4>
+            <p class="text-lg font-extrabold text-secondary">¥128.00</p>
+            <span class="text-[10px] font-bold text-primary">循环爱心</span>
+          </div>
+        </article>
+        <article class="overflow-hidden rounded-xl bg-white shadow-sm">
+          <div class="h-40 bg-[url('https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=900&q=80')] bg-cover bg-center"></div>
+          <div class="space-y-2 p-4">
+            <span class="rounded-full bg-green-100 px-2 py-1 text-[10px] font-bold text-primary">全新</span>
+            <h4 class="font-semibold">极简主义腕表</h4>
+            <p class="text-lg font-extrabold text-secondary">¥256.00</p>
+            <span class="text-[10px] font-bold text-primary">循环爱心</span>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+  <nav class="fixed bottom-0 left-0 right-0 bg-bgsoft/95 px-4 pb-6 pt-3 shadow-[0_-8px_24px_rgba(26,77,46,0.08)]">
+    <div class="mx-auto flex max-w-md items-center justify-around rounded-[2rem] bg-white px-2 py-2">
+      <div class="rounded-full bg-primary px-4 py-2 text-center text-xs font-bold text-white">首页</div>
+      <div class="text-xs font-semibold text-muted">商城</div>
+      <div class="text-xs font-semibold text-muted">捐赠</div>
+      <div class="text-xs font-semibold text-muted">订单</div>
+      <div class="text-xs font-semibold text-muted">我的</div>
+    </div>
+  </nav>
+</body>
+</html>
