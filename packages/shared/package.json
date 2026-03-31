@@ -1,0 +1,5 @@
+{
+  "name": "@ccf/shared",
+  "private": true,
+  "type": "module"
+}

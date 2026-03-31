@@ -1,0 +1,8 @@
+{
+  "name": "@ccf/app",
+  "private": true,
+  "scripts": {
+    "start": "node -e \"console.log('app dev placeholder')\"",
+    "test": "vitest run"
+  }
+}

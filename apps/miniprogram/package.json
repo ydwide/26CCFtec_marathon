@@ -1,0 +1,8 @@
+{
+  "name": "@ccf/miniprogram",
+  "private": true,
+  "scripts": {
+    "dev:weapp": "node -e \"console.log('miniprogram dev placeholder')\"",
+    "test": "vitest run"
+  }
+}
