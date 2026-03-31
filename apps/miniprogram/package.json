@@ -4,5 +4,16 @@
   "scripts": {
     "dev:weapp": "node -e \"console.log('miniprogram dev placeholder')\"",
     "test": "vitest run"
+  },
+  "dependencies": {
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1"
+  },
+  "devDependencies": {
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/jest-dom": "^6.8.0",
+    "@types/react": "^19.1.13",
+    "@types/react-dom": "^19.1.9",
+    "jsdom": "^27.0.0"
   }
 }
