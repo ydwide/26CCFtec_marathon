@@ -1,3 +1,4 @@
+// 当前阶段先用内存态 runtime 模拟数据库与服务容器，方便把主链路先跑通。
 import { DonationStatus, OrderStatus, ProductStatus } from "@ccf/shared";
 import { AiDraftsService } from "./modules/ai-drafts/ai-drafts.service";
 import { DonationsService } from "./modules/donations/donations.service";

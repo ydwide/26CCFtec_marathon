@@ -1,3 +1,4 @@
+// 后端应用入口模块，负责把当前 MVP 已接通的捐赠、审核和订单接口注册起来。
 import { Module } from "@nestjs/common";
 import { DonationsController } from "./modules/donations/donations.controller";
 import { DonationsService } from "./modules/donations/donations.service";

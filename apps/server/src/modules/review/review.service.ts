@@ -1,3 +1,4 @@
+// 审核服务：负责把“待审核”的捐赠单正式转成“销售中”的商品。
 import { ConflictException, Injectable, NotFoundException } from "@nestjs/common";
 import { DonationStatus, ProductStatus } from "@ccf/shared";
 import type { RuntimeStore } from "../../runtime";
@@ -25,6 +26,7 @@ export class ReviewService {
       throw new ConflictException("当前状态不可上架");
     }
 
+    // 审核通过后生成唯一商品，后续购买和锁单都围绕这个商品对象展开。
     const product = {
       id: `product-${this.store.products.size + 1}`,
       donationCaseId,

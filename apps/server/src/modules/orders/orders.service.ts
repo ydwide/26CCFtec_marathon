@@ -1,3 +1,4 @@
+// 订单服务：实现“一物一件”的锁单规则，避免同一商品被重复下单。
 import { ConflictException, Injectable, NotFoundException } from "@nestjs/common";
 import { OrderStatus, ProductStatus } from "@ccf/shared";
 import type { RuntimeStore } from "../../runtime";
@@ -17,6 +18,7 @@ export class OrdersService {
       throw new ConflictException("商品当前不可购买");
     }
 
+    // 下单成功的第一步不是立刻支付，而是先把商品切到“已锁定”。
     product.status = ProductStatus.Locked;
 
     const order = {

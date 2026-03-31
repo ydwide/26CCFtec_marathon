@@ -1,3 +1,4 @@
+// 捐赠提交流程入口：负责接收用户提交捐赠，以及触发 AI 整理草稿。
 import { Body, Controller, Param, Post } from "@nestjs/common";
 import { runtime } from "../../runtime";
 

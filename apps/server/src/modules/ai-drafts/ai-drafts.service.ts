@@ -1,3 +1,4 @@
+// AI 整理服务：当前先返回稳定的 mock 结果，后面会替换成真实模型调用。
 import { Injectable } from "@nestjs/common";
 import type { RuntimeStore } from "../../runtime";
 
