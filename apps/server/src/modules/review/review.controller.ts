@@ -1,10 +1,15 @@
 // 审核上架入口：后台工作人员确认 AI 草稿后，从这里把捐赠单转成可售商品。
-import { Body, Controller, Param, Post } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post } from "@nestjs/common";
 import { runtime } from "../../runtime";
 
 @Controller("reviews")
 export class ReviewController {
   private readonly reviewService = runtime.reviewService;
+
+  @Get(":id")
+  getDraft(@Param("id") id: string) {
+    return this.reviewService.getDraft(id);
+  }
 
   @Post(":id/approve")
   approve(

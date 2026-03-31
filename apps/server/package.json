@@ -2,7 +2,7 @@
   "name": "@ccf/server",
   "private": true,
   "scripts": {
-    "dev": "nest start --watch",
+    "dev": "tsx watch src/main.ts",
     "test": "vitest run"
   },
   "dependencies": {

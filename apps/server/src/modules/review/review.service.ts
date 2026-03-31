@@ -7,6 +7,27 @@ import type { RuntimeStore } from "../../runtime";
 export class ReviewService {
   constructor(private readonly store: RuntimeStore) {}
 
+  getDraft(donationCaseId: string) {
+    const donationCase = this.store.donationCases.get(donationCaseId);
+    const draft = this.store.aiDrafts.get(donationCaseId);
+
+    if (!donationCase || !draft) {
+      throw new NotFoundException("审核草稿不存在");
+    }
+
+    if (donationCase.status !== DonationStatus.PendingReview) {
+      throw new ConflictException("当前状态不可审核");
+    }
+
+    return {
+      suggestedTitle: draft.suggestedTitle,
+      suggestedDescription: draft.suggestedDescription,
+      suggestedCategory: draft.suggestedCategory,
+      suggestedPriceInCents: draft.suggestedPriceInCents,
+      conditionLabel: donationCase.conditionLabel ?? ""
+    };
+  }
+
   approve(
     donationCaseId: string,
     input: {
