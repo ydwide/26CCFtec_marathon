@@ -2,7 +2,9 @@
   "name": "@ccf/admin",
   "private": true,
   "scripts": {
-    "dev": "node -e \"console.log('admin dev placeholder')\"",
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
     "test": "vitest run"
   },
   "dependencies": {

@@ -1,0 +1,83 @@
+:root {
+  color: #18352a;
+  background: linear-gradient(180deg, #edf5ef 0%, #dbe9df 100%);
+  font-family: "Segoe UI", "PingFang SC", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+.mini-shell {
+  width: min(430px, 100vw);
+  min-height: 100vh;
+  background: #fff;
+  box-shadow: 0 16px 40px rgba(24, 53, 42, 0.12);
+  display: grid;
+  grid-template-rows: auto auto 1fr;
+}
+
+.mini-header {
+  padding: 20px 24px 12px;
+}
+
+.mini-header h1 {
+  margin: 0;
+  font-size: 22px;
+}
+
+.mini-nav {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 0 20px 12px;
+}
+
+.mini-nav-item {
+  border: 0;
+  border-radius: 999px;
+  padding: 8px 14px;
+  background: #edf2ee;
+  color: #567265;
+  white-space: nowrap;
+}
+
+.mini-nav-item.active {
+  background: #2f6b53;
+  color: #fff;
+}
+
+.mini-content {
+  padding: 20px;
+}
+
+.mini-content section,
+.mini-content form {
+  display: grid;
+  gap: 12px;
+}
+
+.mini-content h1,
+.mini-content h2,
+.mini-content p {
+  margin: 0;
+}
+
+.mini-content ul,
+.mini-content ol {
+  padding-left: 18px;
+  margin: 0;
+}

@@ -1,0 +1,101 @@
+:root {
+  color: #163328;
+  background: linear-gradient(180deg, #edf4ef 0%, #dce8df 100%);
+  font-family: "Segoe UI", "PingFang SC", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+}
+
+button {
+  font: inherit;
+}
+
+.phone-shell {
+  width: min(420px, 100vw);
+  min-height: 100vh;
+  background: #ffffff;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  box-shadow: 0 16px 40px rgba(22, 51, 40, 0.12);
+}
+
+.app-header {
+  padding: 20px 24px;
+  border-bottom: 1px solid #edf1ee;
+}
+
+.app-header h1 {
+  margin: 0;
+  font-size: 22px;
+}
+
+.app-content {
+  padding: 20px;
+}
+
+.app-content section {
+  display: grid;
+  gap: 12px;
+}
+
+.app-content h1,
+.app-content h2,
+.app-content p {
+  margin: 0;
+}
+
+.app-content ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 12px;
+}
+
+.app-content li {
+  border: 1px solid #e6ece8;
+  border-radius: 16px;
+  padding: 14px;
+  background: #f9fbfa;
+}
+
+.app-content button {
+  margin-top: 8px;
+  border: 0;
+  border-radius: 10px;
+  padding: 8px 12px;
+  background: #2f6b53;
+  color: #fff;
+}
+
+.tabbar {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  padding: 12px;
+  border-top: 1px solid #edf1ee;
+  background: #fbfcfb;
+}
+
+.tab-item {
+  border: 0;
+  border-radius: 12px;
+  padding: 10px 12px;
+  background: transparent;
+  color: #567265;
+}
+
+.tab-item.active {
+  background: #e3f0e8;
+  color: #163328;
+  font-weight: 700;
+}

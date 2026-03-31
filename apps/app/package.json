@@ -2,7 +2,9 @@
   "name": "@ccf/app",
   "private": true,
   "scripts": {
-    "start": "node -e \"console.log('app dev placeholder')\"",
+    "start": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
     "test": "vitest run"
   },
   "dependencies": {

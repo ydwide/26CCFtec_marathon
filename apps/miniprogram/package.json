@@ -2,7 +2,9 @@
   "name": "@ccf/miniprogram",
   "private": true,
   "scripts": {
-    "dev:weapp": "node -e \"console.log('miniprogram dev placeholder')\"",
+    "dev:weapp": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
     "test": "vitest run"
   },
   "dependencies": {
