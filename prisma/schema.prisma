@@ -1,0 +1,136 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                      String               @id @default(cuid())
+  role                    String
+  nickname                String
+  mobile                  String?
+  notificationPreferences String[]
+  createdAt               DateTime             @default(now())
+  updatedAt               DateTime             @updatedAt
+  status                  String               @default("ACTIVE")
+  donationCases           DonationCase[]
+  orders                  Order[]
+  notifications           NotificationRecord[]
+}
+
+model DonationCase {
+  id             String    @id @default(cuid())
+  userId         String
+  title          String
+  category       String?
+  conditionLabel String?
+  description    String?
+  deliveryMethod String?
+  contactPhone   String?
+  status         String
+  rejectReason   String?
+  productId      String?   @unique
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  user           User      @relation(fields: [userId], references: [id])
+  aiDraft        AiDraft?
+  product        Product?
+  impactRecords  ImpactRecord[]
+}
+
+model AiDraft {
+  id                     String       @id @default(cuid())
+  donationCaseId         String       @unique
+  suggestedCategory      String
+  suggestedTitle         String
+  suggestedDescription   String
+  suggestedTags          String[]
+  suggestedPriceInCents  Int
+  provider               String
+  accepted               Boolean      @default(false)
+  createdAt              DateTime     @default(now())
+  updatedAt              DateTime     @updatedAt
+  donationCase           DonationCase @relation(fields: [donationCaseId], references: [id])
+}
+
+model Product {
+  id             String         @id @default(cuid())
+  donationCaseId String         @unique
+  title          String
+  description    String
+  category       String
+  conditionLabel String
+  priceInCents   Int
+  status         String
+  isUnique       Boolean        @default(true)
+  publishedAt    DateTime?
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  donationCase   DonationCase   @relation(fields: [donationCaseId], references: [id])
+  orders         Order[]
+  impactRecords  ImpactRecord[]
+}
+
+model Order {
+  id                String               @id @default(cuid())
+  userId            String
+  productId         String
+  amountInCents     Int
+  status            String
+  paymentStatus     String
+  fulfillmentStatus String
+  cancelledReason   String?
+  createdAt         DateTime             @default(now())
+  updatedAt         DateTime             @updatedAt
+  paidAt            DateTime?
+  completedAt       DateTime?
+  user              User                 @relation(fields: [userId], references: [id])
+  product           Product              @relation(fields: [productId], references: [id])
+  paymentRecord     PaymentRecord?
+  impactRecords     ImpactRecord[]
+}
+
+model PaymentRecord {
+  id              String   @id @default(cuid())
+  orderId         String   @unique
+  provider        String
+  providerTradeNo String?
+  amountInCents   Int
+  status          String
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  paidAt          DateTime?
+  order           Order    @relation(fields: [orderId], references: [id])
+}
+
+model NotificationRecord {
+  id         String   @id @default(cuid())
+  userId     String
+  type       String
+  title      String
+  summary    String
+  targetPath String?
+  readAt     DateTime?
+  createdAt  DateTime @default(now())
+  user       User     @relation(fields: [userId], references: [id])
+}
+
+model ImpactRecord {
+  id             String        @id @default(cuid())
+  donationCaseId String?
+  productId      String?
+  orderId        String?
+  donorUserId    String?
+  buyerUserId    String?
+  impactSummary  String
+  displayText    String
+  visualStatus   String
+  completedAt    DateTime?
+  createdAt      DateTime      @default(now())
+  donationCase   DonationCase? @relation(fields: [donationCaseId], references: [id])
+  product        Product?      @relation(fields: [productId], references: [id])
+  order          Order?        @relation(fields: [orderId], references: [id])
+}

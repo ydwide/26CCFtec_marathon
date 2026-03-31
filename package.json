@@ -7,10 +7,16 @@
     "dev:miniprogram": "pnpm --filter @ccf/miniprogram dev:weapp",
     "dev:app": "pnpm --filter @ccf/app start",
     "dev:admin": "pnpm --filter @ccf/admin dev",
+    "prisma:validate": "prisma validate",
+    "prisma:generate": "prisma generate",
+    "prisma:seed": "tsx prisma/seed.ts",
     "test": "vitest run",
     "lint": "pnpm -r lint"
   },
   "devDependencies": {
+    "@prisma/client": "^6.7.0",
+    "prisma": "^6.7.0",
+    "tsx": "^4.19.4",
     "vitest": "^3.2.4"
   }
 }
