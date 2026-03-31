@@ -1,5 +1,8 @@
 {
   "name": "@ccf/shared",
   "private": true,
-  "type": "module"
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  }
 }
