@@ -60,7 +60,7 @@ export async function persistDonationCase(record: DonationCaseRecord) {
       rawItemName: record.title,
       rawDescription: record.description,
       rawCondition: record.conditionLabel,
-      rawImages: record.rawImageUrl ? [record.rawImageUrl] : [],
+      rawImages: record.rawImageUrls ?? (record.rawImageUrl ? [record.rawImageUrl] : []),
       conditionLabel: record.conditionLabel,
       description: record.description,
       status: record.status
@@ -72,7 +72,7 @@ export async function persistDonationCase(record: DonationCaseRecord) {
       rawItemName: record.title,
       rawDescription: record.description,
       rawCondition: record.conditionLabel,
-      rawImages: record.rawImageUrl ? [record.rawImageUrl] : [],
+      rawImages: record.rawImageUrls ?? (record.rawImageUrl ? [record.rawImageUrl] : []),
       conditionLabel: record.conditionLabel,
       description: record.description,
       status: record.status

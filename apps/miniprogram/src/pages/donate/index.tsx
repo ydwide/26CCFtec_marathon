@@ -6,6 +6,7 @@ export function DonatePage() {
   const [title, setTitle] = useState("");
   const [conditionLabel, setConditionLabel] = useState("");
   const [description, setDescription] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -13,7 +14,8 @@ export function DonatePage() {
     await createDonationCase({
       title,
       conditionLabel,
-      description
+      description,
+      imageUrls: imageUrl ? [imageUrl] : []
     });
 
     navigation.navigateTo("/pages/donate-success/index");
@@ -21,6 +23,16 @@ export function DonatePage() {
 
   return (
     <form onSubmit={handleSubmit}>
+      <label>
+        产品图
+        <input
+          aria-label="产品图"
+          value={imageUrl}
+          onChange={(event) => setImageUrl(event.target.value)}
+          placeholder="先填写图片地址，后续接真实上传"
+        />
+      </label>
+
       <label>
         物品名称
         <input

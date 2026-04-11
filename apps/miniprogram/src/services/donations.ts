@@ -4,6 +4,7 @@ export async function createDonationCase(payload: {
   title: string;
   conditionLabel: string;
   description: string;
+  imageUrls?: string[];
 }) {
   const response = await fetch(`${API_BASE_URL}/donations`, {
     method: "POST",

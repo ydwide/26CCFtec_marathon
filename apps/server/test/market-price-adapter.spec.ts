@@ -30,7 +30,9 @@ describe("createMarketPriceAdapter", () => {
       itemName: "胶片相机",
       attributes: {
         年代: "1970s"
-      }
+      },
+      imageUrls: ["https://img.example.test/camera.jpg"],
+      searchSkill: "commerce-market-search"
     });
 
     expect(fetchMock).toHaveBeenCalledWith(
@@ -45,11 +47,13 @@ describe("createMarketPriceAdapter", () => {
           itemName: "胶片相机",
           attributes: {
             年代: "1970s"
-          }
+          },
+          imageUrls: ["https://img.example.test/camera.jpg"],
+          searchSkill: "commerce-market-search"
         })
       })
     );
-    expect(result.query).toBe("Canon 胶片相机 1970s");
+    expect(result.query).toBe("Canon 胶片相机 1970s 产品图识别");
     expect(result.samples).toEqual([
       {
         id: "external-1",

@@ -12,6 +12,7 @@ export interface DonationCaseRecord {
   description?: string;
   status: DonationStatus;
   rawImageUrl?: string;
+  rawImageUrls?: string[];
 }
 
 export interface AiDraftRecord {

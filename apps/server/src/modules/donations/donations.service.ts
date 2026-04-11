@@ -20,16 +20,23 @@ export class DonationsService {
     title: string;
     conditionLabel?: string;
     description?: string;
+    imageUrls?: string[];
   }) {
     const id = createEntityId("case");
+    const imageUrls =
+      input.imageUrls && input.imageUrls.length > 0
+        ? input.imageUrls
+        : [
+            "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=1000&q=80"
+          ];
     const record: DonationCaseRecord = {
       id,
       title: input.title,
       conditionLabel: input.conditionLabel,
       description: input.description,
       status: DonationStatus.Submitted,
-      rawImageUrl:
-        "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=1000&q=80"
+      rawImageUrl: imageUrls[0],
+      rawImageUrls: imageUrls
     };
 
     this.store.donationCases.set(id, record);
@@ -52,7 +59,8 @@ export class DonationsService {
           description:
             persistedDonationCase.rawDescription ?? persistedDonationCase.description ?? undefined,
           status: persistedDonationCase.status as DonationStatus,
-          rawImageUrl: persistedDonationCase.rawImages[0]
+          rawImageUrl: persistedDonationCase.rawImages[0],
+          rawImageUrls: persistedDonationCase.rawImages
         };
 
         this.store.donationCases.set(donationCaseId, donationCase);

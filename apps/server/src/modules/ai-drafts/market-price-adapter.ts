@@ -9,6 +9,8 @@ export type MarketPriceQuery = {
   brand: string;
   itemName: string;
   attributes: Record<string, string>;
+  imageUrls?: string[];
+  searchSkill?: "commerce-market-search";
 };
 
 export type MarketPriceResult = {
@@ -21,7 +23,9 @@ export interface MarketPriceAdapter {
 }
 
 function buildQuery(input: MarketPriceQuery) {
-  return [input.brand, input.itemName, ...Object.values(input.attributes)]
+  const imageSource = input.imageUrls?.length ? "产品图识别" : "";
+
+  return [input.brand, input.itemName, ...Object.values(input.attributes), imageSource]
     .filter(Boolean)
     .join(" ");
 }

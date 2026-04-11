@@ -40,6 +40,7 @@ export class ReviewService {
             : persisted.aiDraft.suggestedPriceInCents,
         priceQuery: persisted.aiDraft.priceQuery ?? "",
         pricingReason: persisted.aiDraft.pricingReason ?? "",
+        provider: persisted.aiDraft.provider,
         aiBrand: persisted.aiDraft.aiBrand,
         aiItemName: persisted.aiDraft.aiItemName,
         aiAttributes:
@@ -87,6 +88,7 @@ export class ReviewService {
       averagePriceInCents: draft.averagePriceInCents ?? draft.suggestedPriceInCents,
       priceQuery: draft.priceQuery ?? "",
       pricingReason: draft.pricingReason ?? "",
+      provider: draft.provider,
       aiBrand: draft.aiBrand,
       aiItemName: draft.aiItemName,
       aiAttributes: draft.aiAttributes,

@@ -14,6 +14,7 @@ export type ReviewDraft = {
   averagePriceInCents: number;
   priceQuery: string;
   pricingReason: string;
+  provider: string;
   aiBrand: string;
   aiItemName: string;
   aiAttributes: Record<string, string>;

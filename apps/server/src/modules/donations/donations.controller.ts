@@ -12,6 +12,7 @@ export class DonationsController {
       title: string;
       conditionLabel?: string;
       description?: string;
+      imageUrls?: string[];
     }
   ) {
     return this.donationsService.createDonationCase(body);

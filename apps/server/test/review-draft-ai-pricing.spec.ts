@@ -22,10 +22,12 @@ describe("review draft ai pricing api", () => {
   });
 
   it("returns enriched ai pricing fields for review drafts", async () => {
+    const productImageUrl = "https://img.example.test/book-set.jpg";
     const created = await request(app.getHttpServer()).post("/donations").send({
       title: "儿童绘本",
       conditionLabel: "9成新",
-      description: "适合 6-8 岁"
+      description: "适合 6-8 岁",
+      imageUrls: [productImageUrl]
     });
 
     await request(app.getHttpServer())
@@ -40,12 +42,15 @@ describe("review draft ai pricing api", () => {
     expect(draft.body.aiAttributes).toEqual({
       适龄: "6-8岁",
       册数: "8册",
-      语言: "中文"
+      语言: "中文",
+      识别来源: "产品图"
     });
     expect(draft.body.sampleCount).toBe(3);
     expect(draft.body.averagePriceInCents).toBe(3100);
     expect(draft.body.priceQuery).toContain("爱心品牌");
+    expect(draft.body.priceQuery).toContain("产品图");
     expect(draft.body.pricingReason).toContain("第三方样本");
+    expect(draft.body.provider).toBe("mock-vision-model+commerce-search-skill");
     expect(draft.body.priceRange).toEqual({
       min: 2500,
       max: 3900
