@@ -1,4 +1,4 @@
-import { afterEach, describe, expect, it, vi } from "vitest";
+﻿import { afterEach, describe, expect, it, vi } from "vitest";
 import { createDonationCase } from "./donations";
 
 describe("createDonationCase", () => {
@@ -6,25 +6,40 @@ describe("createDonationCase", () => {
     vi.unstubAllGlobals();
   });
 
-  it("posts donation data to the backend api", async () => {
-    const fetchMock = vi.fn().mockResolvedValue({
-      ok: true,
-      json: async () => ({ id: "case-1", status: "已提交" })
-    });
+  it("posts donation data and triggers ai draft generation", async () => {
+    const fetchMock = vi
+      .fn()
+      .mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ id: "case-1", status: "已提交" })
+      })
+      .mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ id: "draft-case-1", status: "待审核" })
+      });
 
     vi.stubGlobal("fetch", fetchMock);
 
-    await createDonationCase({
+    const result = await createDonationCase({
       title: "儿童绘本",
-      conditionLabel: "九成新",
+      conditionLabel: "9成新",
       description: "适合 6-8 岁"
     });
 
-    expect(fetchMock).toHaveBeenCalledWith(
+    expect(fetchMock).toHaveBeenNthCalledWith(
+      1,
       "http://localhost:3000/donations",
       expect.objectContaining({
         method: "POST"
       })
     );
+    expect(fetchMock).toHaveBeenNthCalledWith(
+      2,
+      "http://localhost:3000/donations/case-1/ai-draft",
+      expect.objectContaining({
+        method: "POST"
+      })
+    );
+    expect(result.aiDraft.id).toBe("draft-case-1");
   });
 });

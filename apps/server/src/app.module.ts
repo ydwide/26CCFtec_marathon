@@ -7,9 +7,23 @@ import { ReviewController } from "./modules/review/review.controller";
 import { ReviewService } from "./modules/review/review.service";
 import { OrdersController } from "./modules/orders/orders.controller";
 import { OrdersService } from "./modules/orders/orders.service";
+import { NotificationsController } from "./modules/notifications/notifications.controller";
+import { NotificationsService } from "./modules/notifications/notifications.service";
+import { runtime } from "./runtime";
 
 @Module({
-  controllers: [DonationsController, ReviewController, OrdersController],
-  providers: [DonationsService, AiDraftsService, ReviewService, OrdersService]
+  controllers: [DonationsController, ReviewController, OrdersController, NotificationsController],
+  providers: [
+    {
+      provide: "RUNTIME_STORE",
+      useValue: runtime.store
+    },
+    DonationsService,
+    AiDraftsService,
+    ReviewService,
+    OrdersService
+    ,
+    NotificationsService
+  ]
 })
 export class AppModule {}

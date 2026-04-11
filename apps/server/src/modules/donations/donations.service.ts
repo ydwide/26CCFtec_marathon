@@ -1,45 +1,72 @@
-// 捐赠领域服务：维护捐赠单状态，并把“已提交 -> 待审核”这段流程推进起来。
-import { Injectable, NotFoundException } from "@nestjs/common";
+﻿import { Inject, Injectable, NotFoundException } from "@nestjs/common";
 import { DonationStatus } from "@ccf/shared";
 import { AiDraftsService } from "../ai-drafts/ai-drafts.service";
+import {
+  loadDonationCase,
+  persistAiDraft,
+  persistDonationCase
+} from "../../persistence/prisma";
 import type { DonationCaseRecord, RuntimeStore } from "../../runtime";
+import { createEntityId } from "../../utils/ids";
 
 @Injectable()
 export class DonationsService {
   constructor(
-    private readonly store: RuntimeStore,
-    private readonly aiDraftsService: AiDraftsService
+    @Inject("RUNTIME_STORE") private readonly store: RuntimeStore,
+    @Inject(AiDraftsService) private readonly aiDraftsService: AiDraftsService
   ) {}
 
-  createDonationCase(input: {
+  async createDonationCase(input: {
     title: string;
     conditionLabel?: string;
     description?: string;
   }) {
-    // 这里先用内存 Map 模拟持久化，后面切 Prisma 时保留同样的业务语义。
-    const id = `case-${this.store.donationCases.size + 1}`;
+    const id = createEntityId("case");
     const record: DonationCaseRecord = {
       id,
       title: input.title,
       conditionLabel: input.conditionLabel,
       description: input.description,
-      status: DonationStatus.Submitted
+      status: DonationStatus.Submitted,
+      rawImageUrl:
+        "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=1000&q=80"
     };
 
     this.store.donationCases.set(id, record);
+    await persistDonationCase(record);
     return record;
   }
 
-  generateAiDraft(donationCaseId: string) {
-    const donationCase = this.store.donationCases.get(donationCaseId);
+  async generateAiDraft(donationCaseId: string) {
+    let donationCase = this.store.donationCases.get(donationCaseId);
+
+    if (!donationCase) {
+      const persistedDonationCase = await loadDonationCase(donationCaseId);
+
+      if (persistedDonationCase) {
+        donationCase = {
+          id: persistedDonationCase.id,
+          title: persistedDonationCase.rawItemName ?? persistedDonationCase.title,
+          conditionLabel:
+            persistedDonationCase.rawCondition ?? persistedDonationCase.conditionLabel ?? undefined,
+          description:
+            persistedDonationCase.rawDescription ?? persistedDonationCase.description ?? undefined,
+          status: persistedDonationCase.status as DonationStatus,
+          rawImageUrl: persistedDonationCase.rawImages[0]
+        };
+
+        this.store.donationCases.set(donationCaseId, donationCase);
+      }
+    }
 
     if (!donationCase) {
       throw new NotFoundException("捐赠单不存在");
     }
 
-    // AI 草稿生成完成后，捐赠单状态推进到“待审核”，交给后台人工确认。
-    const draft = this.aiDraftsService.generate(donationCaseId);
+    const draft = await this.aiDraftsService.generate(donationCaseId);
     donationCase.status = DonationStatus.PendingReview;
+    await persistDonationCase(donationCase);
+    await persistAiDraft(draft);
 
     return {
       ...draft,

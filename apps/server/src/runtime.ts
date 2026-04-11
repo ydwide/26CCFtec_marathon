@@ -11,6 +11,7 @@ export interface DonationCaseRecord {
   conditionLabel?: string;
   description?: string;
   status: DonationStatus;
+  rawImageUrl?: string;
 }
 
 export interface AiDraftRecord {
@@ -21,12 +22,33 @@ export interface AiDraftRecord {
   suggestedDescription: string;
   suggestedTags: string[];
   suggestedPriceInCents: number;
+  averagePriceInCents?: number;
+  priceQuery?: string;
+  pricingReason?: string;
+  conditionCoefficient?: number;
+  aiBrand: string;
+  aiItemName: string;
+  aiAttributes: Record<string, string>;
+  sampleCount: number;
+  priceRange: {
+    min: number;
+    max: number;
+  };
+  priceSamples: Array<{
+    id: string;
+    sourcePlatform: string;
+    sampleTitle: string;
+    samplePrice: number;
+  }>;
   provider: string;
 }
 
 export interface ProductRecord {
   id: string;
   donationCaseId: string;
+  brand?: string;
+  itemName?: string;
+  attributes?: Record<string, string>;
   title: string;
   description: string;
   category: string;
@@ -43,18 +65,28 @@ export interface OrderRecord {
   status: OrderStatus;
 }
 
+export interface NotificationRecord {
+  id: string;
+  userId: string;
+  title: string;
+  summary: string;
+  readAt: string | null;
+}
+
 export interface RuntimeStore {
   donationCases: Map<string, DonationCaseRecord>;
   aiDrafts: Map<string, AiDraftRecord>;
   products: Map<string, ProductRecord>;
   orders: Map<string, OrderRecord>;
+  notifications: Map<string, NotificationRecord>;
 }
 
 const runtimeStore: RuntimeStore = {
   donationCases: new Map(),
   aiDrafts: new Map(),
   products: new Map(),
-  orders: new Map()
+  orders: new Map(),
+  notifications: new Map()
 };
 
 const aiDraftsService = new AiDraftsService(runtimeStore);

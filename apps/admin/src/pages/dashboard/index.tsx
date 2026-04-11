@@ -1,26 +1,25 @@
-// 工作台：给运营人员一个总览入口，先看到今日待处理事项和核心数量。
-export function DashboardPage() {
+﻿export function DashboardPage() {
   const cards = [
-    { label: "待 AI 整理", value: 8 },
+    { label: "待AI整理", value: 8 },
     { label: "待人工审核", value: 5 },
     { label: "待履约订单", value: 3 }
   ];
 
   return (
-    <section>
-      <h1>工作台</h1>
-      <div>
+    <section className="admin-surface">
+      <div className="admin-surface__header">
+        <h2>工作台</h2>
+        <span className="admin-badge">今日概览</span>
+      </div>
+      <div className="admin-stat-grid">
         {cards.map((item) => (
-          <article key={item.label}>
-            <h2>{item.label}</h2>
-            <p>{item.value}</p>
+          <article key={item.label} className="admin-stat-card">
+            <span>{item.label}</span>
+            <strong>{item.value}</strong>
           </article>
         ))}
       </div>
-      <section>
-        <h2>今日核心数据</h2>
-        <p>捐赠提交 12 单，上架 6 件，成交 2 单。</p>
-      </section>
+      <p className="admin-surface__text">今日新增捐赠 12 单，完成上架 6 件，已成交 2 单，后台链路整体稳定。</p>
     </section>
   );
 }

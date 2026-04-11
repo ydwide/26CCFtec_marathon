@@ -1,4 +1,4 @@
-const API_BASE_URL = "http://localhost:3000";
+﻿const API_BASE_URL = "http://localhost:3000";
 
 export async function createDonationCase(payload: {
   title: string;
@@ -17,5 +17,20 @@ export async function createDonationCase(payload: {
     throw new Error("创建捐赠单失败");
   }
 
-  return response.json();
+  const created = await response.json();
+
+  const aiDraftResponse = await fetch(`${API_BASE_URL}/donations/${created.id}/ai-draft`, {
+    method: "POST"
+  });
+
+  if (!aiDraftResponse.ok) {
+    throw new Error("生成 AI 草稿失败");
+  }
+
+  const aiDraft = await aiDraftResponse.json();
+
+  return {
+    ...created,
+    aiDraft
+  };
 }

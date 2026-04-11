@@ -1,7 +1,36 @@
-// 后台审核服务：当前直接调用后端接口，读取审核草稿并提交确认上架。
-const API_BASE_URL = "http://localhost:3000";
+﻿const API_BASE_URL = "http://localhost:3000";
 
-export async function getReviewDraft(donationCaseId: string) {
+export type ReviewDraft = {
+  donationId: string;
+  statusLabel: string;
+  rawItemName: string;
+  rawDescription: string;
+  rawImageUrl?: string;
+  suggestedTitle: string;
+  suggestedDescription: string;
+  suggestedCategory: string;
+  suggestedPriceInCents: number;
+  conditionLabel: string;
+  averagePriceInCents: number;
+  priceQuery: string;
+  pricingReason: string;
+  aiBrand: string;
+  aiItemName: string;
+  aiAttributes: Record<string, string>;
+  sampleCount: number;
+  priceRange: {
+    min: number;
+    max: number;
+  };
+  priceSamples: Array<{
+    id: string;
+    sourcePlatform: string;
+    sampleTitle: string;
+    samplePrice: number;
+  }>;
+};
+
+export async function getReviewDraft(donationCaseId: string): Promise<ReviewDraft> {
   const response = await fetch(`${API_BASE_URL}/reviews/${donationCaseId}`);
 
   if (!response.ok) {
@@ -13,13 +42,24 @@ export async function getReviewDraft(donationCaseId: string) {
 
 export async function approveDonationCase(
   donationCaseId: string,
-  payload: {
-    title: string;
-    description: string;
-    category: string;
-    conditionLabel: string;
-    priceInCents: number;
-  }
+  payload:
+    | {
+        finalBrand?: string;
+        finalItemName?: string;
+        finalAttributes?: Record<string, string>;
+        finalCategory?: string;
+        finalConditionLabel?: string;
+        finalTitle: string;
+        finalDescription: string;
+        finalPriceInCents: number;
+      }
+    | {
+        title: string;
+        description: string;
+        category: string;
+        conditionLabel: string;
+        priceInCents: number;
+      }
 ) {
   const response = await fetch(`${API_BASE_URL}/reviews/${donationCaseId}/approve`, {
     method: "POST",

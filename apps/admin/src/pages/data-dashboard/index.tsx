@@ -1,5 +1,4 @@
-// 数据看板：汇总捐赠、上架、成交和公益流转数据，给答辩与运营复盘使用。
-export function DataDashboardPage() {
+﻿export function DataDashboardPage() {
   const metrics = [
     { label: "捐赠量", value: "128" },
     { label: "上架转化率", value: "62%" },
@@ -8,15 +7,19 @@ export function DataDashboardPage() {
   ];
 
   return (
-    <section>
-      <h1>数据看板</h1>
-      <ul>
+    <section className="admin-surface">
+      <div className="admin-surface__header">
+        <h2>数据看板</h2>
+        <span className="admin-badge">运营复盘</span>
+      </div>
+      <div className="admin-stat-grid">
         {metrics.map((item) => (
-          <li key={item.label}>
-            {item.label}：{item.value}
-          </li>
+          <article key={item.label} className="admin-stat-card">
+            <span>{item.label}</span>
+            <strong>{item.value}</strong>
+          </article>
         ))}
-      </ul>
+      </div>
     </section>
   );
 }

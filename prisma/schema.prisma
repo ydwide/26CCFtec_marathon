@@ -22,9 +22,13 @@ model User {
 }
 
 model DonationCase {
-  id             String    @id @default(cuid())
+  id             String         @id @default(cuid())
   userId         String
   title          String
+  rawItemName    String?
+  rawDescription String?
+  rawCondition   String?
+  rawImages      String[]
   category       String?
   conditionLabel String?
   description    String?
@@ -32,33 +36,66 @@ model DonationCase {
   contactPhone   String?
   status         String
   rejectReason   String?
-  productId      String?   @unique
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @updatedAt
-  user           User      @relation(fields: [userId], references: [id])
+  productId      String?        @unique
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  user           User           @relation(fields: [userId], references: [id])
   aiDraft        AiDraft?
   product        Product?
+  reviewDecision ReviewDecision?
   impactRecords  ImpactRecord[]
 }
 
 model AiDraft {
-  id                     String       @id @default(cuid())
-  donationCaseId         String       @unique
-  suggestedCategory      String
-  suggestedTitle         String
-  suggestedDescription   String
-  suggestedTags          String[]
-  suggestedPriceInCents  Int
-  provider               String
-  accepted               Boolean      @default(false)
-  createdAt              DateTime     @default(now())
-  updatedAt              DateTime     @updatedAt
-  donationCase           DonationCase @relation(fields: [donationCaseId], references: [id])
+  id                       String          @id @default(cuid())
+  donationCaseId           String          @unique
+  suggestedCategory        String
+  suggestedTitle           String
+  suggestedDescription     String
+  suggestedTags            String[]
+  suggestedPriceInCents    Int
+  suggestedMinPriceInCents Int?
+  suggestedMaxPriceInCents Int?
+  aiBrand                  String?
+  aiItemName               String?
+  aiAttributes             Json?
+  aiCondition              String?
+  aiConfidence             String?
+  aiRiskFlags              String[]
+  priceQuery               String?
+  sampleCount              Int             @default(0)
+  sampleQuality            String?
+  pricingReason            String?
+  provider                 String
+  accepted                 Boolean         @default(false)
+  createdAt                DateTime        @default(now())
+  updatedAt                DateTime        @updatedAt
+  donationCase             DonationCase    @relation(fields: [donationCaseId], references: [id])
+  priceSamples             AiPriceSample[]
+  reviewDecision           ReviewDecision?
+}
+
+model AiPriceSample {
+  id             String   @id @default(cuid())
+  draftId        String
+  sourcePlatform String
+  sampleTitle    String
+  samplePrice    Int
+  matchScore     Float?
+  sampleUrl      String?
+  isValid        Boolean  @default(true)
+  invalidReason  String?
+  crawledAt      DateTime?
+  createdAt      DateTime @default(now())
+  draft          AiDraft  @relation(fields: [draftId], references: [id])
 }
 
 model Product {
   id             String         @id @default(cuid())
   donationCaseId String         @unique
+  brand          String?
+  itemName       String?
+  attributes     Json?
   title          String
   description    String
   category       String
@@ -72,6 +109,28 @@ model Product {
   donationCase   DonationCase   @relation(fields: [donationCaseId], references: [id])
   orders         Order[]
   impactRecords  ImpactRecord[]
+}
+
+model ReviewDecision {
+  id                String       @id @default(cuid())
+  donationCaseId    String       @unique
+  draftId           String       @unique
+  finalBrand        String?
+  finalItemName     String
+  finalAttributes   Json?
+  finalCategory     String
+  finalCondition    String
+  finalTitle        String
+  finalDescription  String?
+  finalPriceInCents Int
+  reviewNote        String?
+  priceAdjustReason String?
+  reviewResult      String
+  reviewedBy        String
+  reviewedAt        DateTime
+  createdAt         DateTime     @default(now())
+  donationCase      DonationCase @relation(fields: [donationCaseId], references: [id])
+  draft             AiDraft      @relation(fields: [draftId], references: [id])
 }
 
 model Order {

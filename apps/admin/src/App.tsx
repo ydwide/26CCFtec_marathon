@@ -1,4 +1,4 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 import { DashboardPage } from "./pages/dashboard";
 import { AiWorkbenchPage } from "./pages/ai-workbench";
 import { ReviewPage } from "./pages/review";
@@ -9,20 +9,19 @@ type TabKey = "dashboard" | "ai" | "review" | "orders" | "data";
 
 const tabs: { key: TabKey; label: string }[] = [
   { key: "dashboard", label: "工作台" },
-  { key: "ai", label: "AI 整理台" },
+  { key: "ai", label: "AI整理台" },
   { key: "review", label: "审核上架" },
   { key: "orders", label: "订单管理" },
   { key: "data", label: "数据看板" }
 ];
 
-// 后台预览壳：把当前已完成的后台页面串成一个可切换的本地预览入口。
 export function App() {
-  const [activeTab, setActiveTab] = useState<TabKey>("dashboard");
+  const [activeTab, setActiveTab] = useState<TabKey>("review");
 
   return (
     <div className="layout">
       <aside className="sidebar">
-        <h1>公益二手后台</h1>
+        <h1>物命策展后台</h1>
         <nav>
           {tabs.map((tab) => (
             <button
