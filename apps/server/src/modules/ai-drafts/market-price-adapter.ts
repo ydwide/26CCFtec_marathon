@@ -3,6 +3,7 @@
   sourcePlatform: string;
   sampleTitle: string;
   samplePrice: number;
+  sampleUrl?: string;
 };
 
 export type MarketPriceQuery = {
@@ -28,6 +29,40 @@ function buildQuery(input: MarketPriceQuery) {
   return [input.brand, input.itemName, ...Object.values(input.attributes), imageSource]
     .filter(Boolean)
     .join(" ");
+}
+
+function buildUrl(endpoint: string, params: Record<string, string>) {
+  const url = new URL(endpoint);
+
+  Object.entries(params).forEach(([key, value]) => {
+    url.searchParams.set(key, value);
+  });
+
+  return url.toString();
+}
+
+function parsePriceInCents(value?: string | number) {
+  if (value === undefined || value === null || value === "") {
+    return 0;
+  }
+
+  return Math.round(Number(value) * 100);
+}
+
+function normalizeUrl(url?: string) {
+  if (!url) {
+    return undefined;
+  }
+
+  return url.startsWith("//") ? `https:${url}` : url;
+}
+
+function asArray<T>(value: T | T[] | undefined): T[] {
+  if (!value) {
+    return [];
+  }
+
+  return Array.isArray(value) ? value : [value];
 }
 
 export class MockMarketPriceAdapter implements MarketPriceAdapter {
@@ -107,6 +142,114 @@ export class ExternalMarketPriceAdapter implements MarketPriceAdapter {
   }
 }
 
+type OneBoundUploadResponse = {
+  items?: {
+    item?: {
+      name?: string;
+      imgid?: string;
+    };
+  };
+  item?: {
+    name?: string;
+    imgid?: string;
+  };
+  imgid?: string;
+};
+
+type OneBoundSearchItem = {
+  num_iid?: string | number;
+  title?: string;
+  price?: string | number;
+  promotion_price?: string | number;
+  detail_url?: string;
+};
+
+type OneBoundSearchResponse = {
+  items?: {
+    item?: OneBoundSearchItem | OneBoundSearchItem[];
+  };
+};
+
+export class OneBoundMarketPriceAdapter implements MarketPriceAdapter {
+  constructor(
+    private readonly options: {
+      key: string;
+      secret: string;
+      uploadEndpoint: string;
+      searchEndpoint: string;
+    }
+  ) {}
+
+  async lookup(input: MarketPriceQuery): Promise<MarketPriceResult> {
+    const imageUrl = input.imageUrls?.[0];
+
+    if (!imageUrl) {
+      throw new Error("OneBound 按图查价需要产品图");
+    }
+
+    const uploadResponse = await fetch(
+      buildUrl(this.options.uploadEndpoint, {
+        key: this.options.key,
+        secret: this.options.secret,
+        imgcode: imageUrl,
+        img_type: "1"
+      })
+    );
+
+    if (!uploadResponse.ok) {
+      throw new Error("OneBound 图片上传接口调用失败");
+    }
+
+    const uploadBody = (await uploadResponse.json()) as OneBoundUploadResponse;
+    const imgid =
+      uploadBody.items?.item?.imgid ??
+      uploadBody.items?.item?.name ??
+      uploadBody.item?.imgid ??
+      uploadBody.item?.name ??
+      uploadBody.imgid;
+
+    if (!imgid) {
+      throw new Error("OneBound 图片上传接口未返回 imgid");
+    }
+
+    const searchResponse = await fetch(
+      buildUrl(this.options.searchEndpoint, {
+        key: this.options.key,
+        secret: this.options.secret,
+        imgid
+      })
+    );
+
+    if (!searchResponse.ok) {
+      throw new Error("OneBound 按图搜索接口调用失败");
+    }
+
+    const searchBody = (await searchResponse.json()) as OneBoundSearchResponse;
+    const samples = asArray(searchBody.items?.item)
+      .map((item, index) => {
+        const samplePrice = parsePriceInCents(item.promotion_price ?? item.price);
+
+        if (!item.title || samplePrice <= 0) {
+          return null;
+        }
+
+        return {
+          id: `taobao-${item.num_iid ?? index + 1}`,
+          sourcePlatform: "淘宝图搜",
+          sampleTitle: item.title,
+          samplePrice,
+          sampleUrl: normalizeUrl(item.detail_url)
+        };
+      })
+      .filter((item): item is MarketPriceSample => Boolean(item));
+
+    return {
+      query: buildQuery(input),
+      samples
+    };
+  }
+}
+
 class FallbackMarketPriceAdapter implements MarketPriceAdapter {
   constructor(
     private readonly primary: MarketPriceAdapter,
@@ -134,6 +277,22 @@ export function createMarketPriceAdapter(): MarketPriceAdapter {
   if (process.env.MARKET_PRICE_API_URL) {
     return new FallbackMarketPriceAdapter(
       new ExternalMarketPriceAdapter(process.env.MARKET_PRICE_API_URL),
+      mockAdapter
+    );
+  }
+
+  if (process.env.ONEBOUND_KEY && process.env.ONEBOUND_SECRET) {
+    return new FallbackMarketPriceAdapter(
+      new OneBoundMarketPriceAdapter({
+        key: process.env.ONEBOUND_KEY,
+        secret: process.env.ONEBOUND_SECRET,
+        uploadEndpoint:
+          process.env.ONEBOUND_UPLOAD_IMG_URL ??
+          "https://api-gw.onebound.cn/taobao/upload_img",
+        searchEndpoint:
+          process.env.ONEBOUND_ITEM_SEARCH_IMG_URL ??
+          "https://api-gw.onebound.cn/taobao/item_search_img"
+      }),
       mockAdapter
     );
   }

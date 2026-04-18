@@ -32,7 +32,18 @@
 - 抽取标题、价格、图片、链接和平台来源作为样本。
 - 过滤不相关样本和异常价格，再计算市场均价、价格区间和建议价。
 
-当前第一阶段继续保留 mock/fallback，避免比赛演示时被第三方账号、网络或风控卡住。
+当前代码已按 OneBound 文档补齐真实接口适配：
+
+- `ONEBOUND_KEY`：OneBound 调用 key。
+- `ONEBOUND_SECRET`：OneBound 调用 secret。
+- `ONEBOUND_UPLOAD_IMG_URL`：默认 `https://api-gw.onebound.cn/taobao/upload_img`。
+- `ONEBOUND_ITEM_SEARCH_IMG_URL`：默认 `https://api-gw.onebound.cn/taobao/item_search_img`。
+
+调用顺序：
+
+`产品图 URL -> taobao.upload_img(imgcode, img_type=1) -> imgid -> taobao.item_search_img(imgid) -> 淘宝图搜样本 -> 平均价格/价格区间`
+
+如果没有凭证、图片缺失、接口失败或返回样本为空，系统继续保留 mock/fallback，避免比赛演示时被第三方账号、网络或风控卡住。
 
 ## 阶段边界
 
