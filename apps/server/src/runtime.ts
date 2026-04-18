@@ -42,6 +42,8 @@ export interface AiDraftRecord {
     samplePrice: number;
   }>;
   provider: string;
+  intakeQrCode: string;
+  productBarcode: string;
 }
 
 export interface ProductRecord {

@@ -15,6 +15,12 @@ vi.mock("../../services/review", () => ({
     suggestedCategory: "图书文具",
     suggestedPriceInCents: 2900,
     conditionLabel: "9成新",
+    averagePriceInCents: 3100,
+    priceQuery: "爱心品牌 儿童绘本套装 产品图识别",
+    pricingReason: "基于第三方样本生成建议价",
+    provider: "mock-vision-model+commerce-search-skill",
+    intakeQrCode: "IN-case-1",
+    productBarcode: "HY-CASE-1",
     aiBrand: "爱心品牌",
     aiItemName: "儿童绘本套装",
     aiAttributes: {
@@ -38,6 +44,8 @@ describe("ReviewPage", () => {
 
     expect((await screen.findAllByDisplayValue("儿童绘本套装")).length).toBeGreaterThan(0);
     expect(screen.getByDisplayValue("爱心品牌")).toBeTruthy();
+    expect(screen.getByText("IN-case-1")).toBeTruthy();
+    expect(screen.getByText("HY-CASE-1")).toBeTruthy();
     fireEvent.click(screen.getByText("采纳建议并提交审核"));
 
     await waitFor(() => {

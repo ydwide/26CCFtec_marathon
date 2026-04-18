@@ -71,6 +71,14 @@ export function ReviewPage({ donationCaseId }: { donationCaseId: string }) {
               <span>所属类别：</span>
               {draft.suggestedCategory}
             </p>
+            <p>
+              <span>入库二维码：</span>
+              {draft.intakeQrCode}
+            </p>
+            <p>
+              <span>商品条码：</span>
+              {draft.productBarcode}
+            </p>
             <div className="review-quote">“{draft.rawDescription}”</div>
           </div>
         </section>

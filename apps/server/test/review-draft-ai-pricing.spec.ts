@@ -51,6 +51,8 @@ describe("review draft ai pricing api", () => {
     expect(draft.body.priceQuery).toContain("产品图");
     expect(draft.body.pricingReason).toContain("第三方样本");
     expect(draft.body.provider).toBe("mock-vision-model+commerce-search-skill");
+    expect(draft.body.intakeQrCode).toBe(`IN-${created.body.id}`);
+    expect(draft.body.productBarcode).toMatch(/^HY-/);
     expect(draft.body.priceRange).toEqual({
       min: 2500,
       max: 3900

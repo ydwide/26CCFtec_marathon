@@ -15,6 +15,8 @@ export type ReviewDraft = {
   priceQuery: string;
   pricingReason: string;
   provider: string;
+  intakeQrCode: string;
+  productBarcode: string;
   aiBrand: string;
   aiItemName: string;
   aiAttributes: Record<string, string>;

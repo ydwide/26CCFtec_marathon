@@ -52,7 +52,9 @@ export class AiDraftsService {
       priceSamples: marketResult.samples,
       provider: `${identified.provider}+${
         process.env.MARKET_PRICE_API_URL ? "external-commerce-search-skill" : "commerce-search-skill"
-      }`
+      }`,
+      intakeQrCode: `IN-${donationCaseId}`,
+      productBarcode: `HY-${donationCaseId.slice(-8).toUpperCase()}`
     };
 
     this.store.aiDrafts.set(donationCaseId, draft);

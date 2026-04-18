@@ -7,6 +7,14 @@ import {
 import type { RuntimeStore } from "../../runtime";
 import { createEntityId } from "../../utils/ids";
 
+function buildIntakeQrCode(donationCaseId: string) {
+  return `IN-${donationCaseId}`;
+}
+
+function buildProductBarcode(donationCaseId: string) {
+  return `HY-${donationCaseId.slice(-8).toUpperCase()}`;
+}
+
 @Injectable()
 export class ReviewService {
   constructor(@Inject("RUNTIME_STORE") private readonly store: RuntimeStore) {}
@@ -41,6 +49,8 @@ export class ReviewService {
         priceQuery: persisted.aiDraft.priceQuery ?? "",
         pricingReason: persisted.aiDraft.pricingReason ?? "",
         provider: persisted.aiDraft.provider,
+        intakeQrCode: buildIntakeQrCode(persisted.id),
+        productBarcode: buildProductBarcode(persisted.id),
         aiBrand: persisted.aiDraft.aiBrand,
         aiItemName: persisted.aiDraft.aiItemName,
         aiAttributes:
@@ -89,6 +99,8 @@ export class ReviewService {
       priceQuery: draft.priceQuery ?? "",
       pricingReason: draft.pricingReason ?? "",
       provider: draft.provider,
+      intakeQrCode: draft.intakeQrCode,
+      productBarcode: draft.productBarcode,
       aiBrand: draft.aiBrand,
       aiItemName: draft.aiItemName,
       aiAttributes: draft.aiAttributes,
@@ -142,7 +154,9 @@ export class ReviewService {
             sampleTitle: sample.sampleTitle,
             samplePrice: sample.samplePrice
           })),
-          provider: persisted.aiDraft.provider
+          provider: persisted.aiDraft.provider,
+          intakeQrCode: buildIntakeQrCode(persisted.id),
+          productBarcode: buildProductBarcode(persisted.id)
         };
 
         this.store.donationCases.set(donationCaseId, donationCase);
